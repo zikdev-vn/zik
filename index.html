@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Galaxy with Three.js</title>
+    <style>
+        body { margin: 0; }
+        canvas { display: block; }
+    </style>
+</head>
+<body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.134.0/examples/js/controls/OrbitControls.js"></script>
+<script>
+// Set up the scene, camera, and renderer
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+const renderer = new THREE.WebGLRenderer();
+renderer.setSize(window.innerWidth, window.innerHeight);
+document.body.appendChild(renderer.domElement);
+
+// Set up the galaxy
+const galaxyGeometry = new THREE.BufferGeometry();
+const starCount = 10000;
+const positions = new Float32Array(starCount * 3);
+const colors = new Float32Array(starCount * 3);
+
+for (let i = 0; i < starCount; i++) {
+    const i3 = i * 3;
+    const radius = Math.random() * 5;
+    const spinAngle = radius * 5;
+    const branchAngle = (i % 5) / 5 * Math.PI * 2;
+
+    const randomX = (Math.random() - 0.5) * 0.3;
+    const randomY = (Math.random() - 0.5) * 0.3;
+    const randomZ = (Math.random() - 0.5) * 0.3;
+
+    positions[i3] = Math.cos(branchAngle + spinAngle) * radius + randomX;
+    positions[i3 + 1] = randomY;
+    positions[i3 + 2] = Math.sin(branchAngle + spinAngle) * radius + randomZ;
+
+    const color = new THREE.Color(Math.random(), Math.random(), Math.random());
+    colors[i3] = color.r;
+    colors[i3 + 1] = color.g;
+    colors[i3 + 2] = color.b;
+}
+
+galaxyGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+galaxyGeometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+
+// Material for stars
+const starMaterial = new THREE.PointsMaterial({
+    size: 0.05,
+    vertexColors: true,
+    blending: THREE.AdditiveBlending,
+    sizeAttenuation: true,
+    transparent: true
+});
+
+// Points object to display stars
+const galaxy = new THREE.Points(galaxyGeometry, starMaterial);
+scene.add(galaxy);
+
+// Set up OrbitControls
+const controls = new THREE.OrbitControls(camera, renderer.domElement);
+controls.enableDamping = true; // For smoother movement
+
+// Set the camera position
+camera.position.set(0, 1, 8);
+
+// Handle window resize
+window.addEventListener('resize', () => {
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+});
+
+// Render loop
+function animate() {
+    requestAnimationFrame(animate);
+    controls.update(); // Update controls
+    renderer.render(scene, camera);
+}
+
+animate();
+</script>
+</body>
+</html>

@@ -1,7 +1,9 @@
 ## Hi there 👋
 - https://zikdev-vn.github.io/zikdev-vn
--venv windown
--python3 -m venv venv
+-
+- 
+- venv windown
+- python3 -m venv venv
 - venv\Scripts\activate
 <!--
 **zikdev-vn/zikdev-vn** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.

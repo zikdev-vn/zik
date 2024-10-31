@@ -1,5 +1,5 @@
 ## Hi there 👋
-- https://zikdev-vn.github.io/zikdev-vn
+- https://zikdev-vn.github.io/zik
 -
 - 
 - venv windown

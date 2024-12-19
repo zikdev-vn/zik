@@ -22,7 +22,8 @@ body {
 	color:#fff;
     width: 350px;
     border-radius: 10px;
-   backdrop-filter: blur(10px);
+    background: linear-gradient(145deg, #9a40a9, #b74cc9);
+    backdrop-filter: blur(10px);
     border: none
 }
 
